@@ -54,13 +54,29 @@ class DynamicTableUpdateView(UpdateView):
     model = DynamicTable
     fields = ['field_type', 'field_title']  # Adjust the fields as per your model
 
-    @csrf_exempt
-    def dispatch(self, request, *args, **kwargs):
+   def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def form_valid(self, form):
+   def form_valid(self, form):
         response = super().form_valid(form)
-        # Additional logic for updating the dynamic table structure if needed
+
+        # Perform additional logic for updating the dynamic table structure if needed
+        dynamic_table = self.get_object()  # Get the dynamic table instance
+
+        # Track the updated fields and parameters
+        updated_fields = []
+        updated_parameters = {}
+
+        for field_name in form.changed_data:
+            field_value = form.cleaned_data.get(field_name)
+            updated_fields.append(field_name)
+            updated_parameters[field_name] = field_value
+
+        # Print the updated fields and parameters for demonstration
+        print("Updated Fields:", updated_fields)
+        print("Updated Parameters:", updated_parameters)
+
+        # Perform further actions based on the updated fields and parameters
         # ...
 
         return response
@@ -71,7 +87,6 @@ class DynamicTableUpdateView(UpdateView):
 
     def get_success_url(self):
         return '/api/table/' + str(self.object.pk)  # Redirect to the updated dynamic table
-
 
 
 class AddRowView(View):
