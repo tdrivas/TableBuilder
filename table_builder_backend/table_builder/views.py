@@ -76,9 +76,6 @@ class DynamicTableUpdateView(UpdateView):
         print("Updated Fields:", updated_fields)
         print("Updated Parameters:", updated_parameters)
 
-        # Perform further actions based on the updated fields and parameters
-        # ...
-
         return response
 
     def form_invalid(self, form):
